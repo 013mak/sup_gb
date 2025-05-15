@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<section layout:fragment="bodyContent">
+<h2>Назначить исполнителей для задачи: <span th:text="${task.title}"></span></h2>
+
+<form th:action="@{|/tasks/${task.id}/assign|}" method="post">
+  <label>Выберите пользователей:</label><br/>
+  <select name="userIds" multiple size="5">
+    <option th:each="user : ${users}"
+            th:value="${user.id}"
+            th:text="${user.username}"
+            th:selected="${task.assignees.contains(user)}">
+    </option>
+  </select><br/><br/>
+
+  <button type="submit">Назначить</button>
+</form>
+
+<a th:href="@{/projects/{projectId}(projectId=${task.project.id})}">Назад к проекту</a>
+  <h3>Комментарии</h3>
+  <ul>
+    <li th:each="comment : ${task.comments}">
+      <span th:text="${comment.content}">Комментарий</span>
+      <small th:text="${#temporals.format(comment.createdAt, 'dd.MM.yyyy HH:mm')}"></small>
+    </li>
+  </ul>
+
+  <form th:action="@{/comments/add}" method="post">
+    <input type="hidden" name="taskId" th:value="${task.id}" />
+    <textarea name="content" placeholder="Добавить комментарий" required></textarea><br/>
+    <button type="submit">Добавить</button>
+  </form>
+</section>
+</body>
+</html>

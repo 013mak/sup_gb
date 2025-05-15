@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Детали сотрудника</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<section layout:fragment="bodyContent">
+    <h2>Информация о сотруднике</h2>
+    <table>
+        <tr>
+            <th>Фамилия:</th>
+            <td th:text="${employee.lastName}">Иванов</td>
+        </tr>
+        <tr>
+            <th>Имя:</th>
+            <td th:text="${employee.firstName}">Иван</td>
+        </tr>
+        <tr>
+            <th>Дата рождения:</th>
+            <td th:text="${employee.birthDate}">1990-01-01</td>
+        </tr>
+        <tr>
+            <th>Телефон:</th>
+            <td th:text="${employee.phone}">+7 123 456 78 90</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td th:text="${employee.email}">ivanov@example.com</td>
+        </tr>
+    </table>
+
+    <a th:href="@{/employees/edit/{id}(id=${employee.id})}">Редактировать</a>
+    <br/>
+    <a th:href="@{/employees}">Назад к списку сотрудников</a>
+</section>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$CONTENT_TITLE - Project Manager">Project Manager</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<header>
+    <h1>Управление задачами и проектами</h1>
+
+    <sec:authorize access="isAuthenticated()">
+        <nav>
+
+            <sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
+                <a th:href="@{/projects}">Управление проектами</a>
+                <a th:href="@{/tasks}">Управление задачами</a>
+            </sec:authorize>
+
+            <sec:authorize access="hasRole('ADMIN')">
+                <a th:href="@{/admin/users}">Пользователи</a>
+            </sec:authorize>
+
+            <sec:authorize access="hasRole('USER')">
+                <a th:href="@{/projects/my}">Мои проекты</a>
+                <a th:href="@{/tasks/my}">Мои задачи</a>
+            </sec:authorize>
+
+            <a th:href="@{/logout}">Выход</a>
+        </nav>
+        <hr/>
+    </sec:authorize>
+</header>
+
+<main layout:fragment="bodyContent">
+
+</main>
+
+</body>
+</html>

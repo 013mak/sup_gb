@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title>Мои задания</title>
+</head>
+<body>
+<section layout:fragment="bodyContent">
+<h2>Мои задания</h2>
+<table border="1">
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Описание</th>
+    <th>Проект</th>
+    <th>Приоритет</th>
+    <th>Дедлайн</th>
+    <th>Статус</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="task : ${tasks}">
+    <td th:text="${task.title}">Название</td>
+    <td th:text="${task.description}">Описание</td>
+    <td th:text="${task.project.name}">Проект</td>
+    <td th:text="${task.priority}">Приоритет</td>
+    <td th:text="${task.deadline}">Дедлайн</td>
+    <td th:text="${task.status}">Статус</td>
+  </tr>
+  </tbody>
+</table>
+</section>
+</body>
+</html>

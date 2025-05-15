@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Пользователи</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<section layout:fragment="bodyContent">
+    <h1>Список пользователей</h1>
+
+    <a th:href="@{/auth/register}" class="btn">+ Создать пользователя</a>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя пользователя</th>
+            <th>Роли</th>
+            <th>Изменить роли</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">ID</td>
+            <td th:text="${user.username}">Username</td>
+            <td th:text="${user.roles}">Roles</td>
+            <td>
+                <form th:action="@{/admin/set-role}" method="post">
+                    <input type="hidden" name="userId" th:value="${user.id}"/>
+                    <select name="roles" multiple>
+                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                    </select>
+                    <button type="submit">Сохранить</button>
+                </form>
+                <a th:href="@{/admin/employees/{id}(id=${user.id})}">Профиль</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

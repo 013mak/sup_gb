@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<section layout:fragment="bodyContent">
+<h2>Редактировать проект</h2>
+
+<form th:action="@{/projects/edit/{id}(id=${project.id})}" th:object="${project}" method="post">
+  <label>Название:
+    <input type="text" th:field="*{name}" />
+  </label><br/>
+  <label>Описание:
+    <textarea th:field="*{description}"></textarea>
+  </label><br/>
+  <label>Дедлайн:
+    <input type="date" th:field="*{deadline}" />
+  </label><br/>
+  <label>Приоритет:
+    <select th:field="*{priority}">
+      <option th:each="p : ${priorities}" th:value="${p}" th:text="${p}"></option>
+    </select>
+  </label><br/>
+  <button type="submit">Сохранить</button>
+  <a th:href="@{/tasks/create/{projectId}(projectId=${project.id})}" class="btn">+ Добавить задачу</a>
+  <label><br/>Исполнители:</label><br/>
+  <select name="assignees" multiple size="5">
+    <option th:each="user : ${users}"
+            th:value="${user.id}"
+            th:text="${user.username}"
+            th:selected="${project.assignees.contains(user)}">
+    </option>
+  </select><br/><br/>
+</form>
+
+<a th:href="@{/projects}">Отмена</a>
+</section>
+</body>
+</html>

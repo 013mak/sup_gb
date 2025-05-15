@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title>Мои проекты</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<section layout:fragment="bodyContent">
+<h2>Мои проекты</h2>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Описание</th>
+    <th>Приоритет</th>
+    <th>Дедлайн</th>
+    <th>Действия</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="project : ${projects}">
+    <td th:text="${project.name}">Название</td>
+    <td th:text="${project.description}">Описание</td>
+    <td th:text="${project.deadline}">Дедлайн</td>
+    <td th:text="${project.priority}">Приоритет</td>
+    <td>
+      <a th:href="@{'/projects/' + ${project.id}}">Детали</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</section>
+</body>
+</html>

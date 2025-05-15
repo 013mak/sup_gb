@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<body>
+<section layout:fragment="bodyContent">
+    <h2>Редактирование задачи</h2>
+
+    <form th:action="@{/tasks/edit}" th:object="${task}" method="post">
+        <input type="hidden" th:value="${task.id}" name="id" />
+        <input type="hidden" th:value="${task.project.id}" name="projectId" />
+
+        <label>Заголовок задачи:
+            <input type="text" th:field="*{title}" />
+        </label><br/>
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;"></span><br/>
+
+        <label>Описание задачи:
+            <textarea th:field="*{description}"></textarea>
+        </label><br/>
+        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color: red;"></span><br/>
+
+        <label>Приоритет задачи:
+            <select th:field="*{priority}">
+                <option th:each="p : ${priorities}" th:value="${p}" th:text="${p}"></option>
+            </select>
+        </label><br/>
+        <span th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}" style="color: red;"></span><br/>
+
+        <label>Статус задачи:
+            <select th:field="*{status}">
+                <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+            </select>
+        </label><br/>
+        <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color: red;"></span><br/>
+
+        <label>Дедлайн задачи:
+            <input type="date" th:field="*{deadline}" />
+        </label><br/>
+        <span th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}" style="color: red;"></span><br/>
+
+        <label>Исполнители:</label>
+        <select name="assignees" multiple size="5">
+            <option th:each="user : ${users}"
+                    th:value="${user.id}"
+                    th:text="${user.username}"
+                    th:selected="${task.assignees.contains(user)}">
+            </option>
+        </select><br/><br/>
+
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <hr/>
+    <h3>Комментарии</h3>
+
+    <ul>
+        <li th:each="comment : ${task.comments}">
+            <form th:action="@{/comments/edit}" method="post" style="display: inline;">
+                <input type="hidden" name="commentId" th:value="${comment.id}" />
+                <input type="text" name="content" th:value="${comment.content}" />
+                <button type="submit">Сохранить</button>
+            </form>
+            <form th:action="@{/comments/delete}" method="post" style="display: inline;">
+                <input type="hidden" name="commentId" th:value="${comment.id}" />
+                <button type="submit">Удалить</button>
+            </form>
+            <small th:text="${#temporals.format(comment.createdAt, 'dd.MM.yyyy HH:mm')}"></small>
+        </li>
+    </ul>
+
+    <form th:action="@{/comments/add}" method="post">
+        <input type="hidden" name="taskId" th:value="${task.id}" />
+        <textarea name="content" placeholder="Добавить комментарий" required></textarea><br/>
+        <button type="submit">Добавить</button>
+    </form>
+    <h3>Комментарии</h3>
+    <ul>
+        <li th:each="comment : ${task.comments}">
+            <strong th:text="${comment.author.username}">Автор</strong>:
+            <span th:text="${comment.content}">Комментарий</span>
+            <small th:text="${#temporals.format(comment.createdAt, 'dd.MM.yyyy HH:mm')}"></small>
+        </li>
+    </ul>
+</section>
+</body>
+</html>

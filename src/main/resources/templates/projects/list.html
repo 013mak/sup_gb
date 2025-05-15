@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Список проектов</title>
+</head>
+<body>
+
+<section layout:fragment="bodyContent">
+    <h2>Список проектов</h2>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Приоритет</th>
+            <th>Дедлайн</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.name}"></td>
+            <td th:text="${project.description}"></td>
+            <td th:text="${project.priority}"></td>
+            <td th:text="${project.deadline}"></td>
+            <td>
+                <a th:href="@{|/projects/${project.id}|}">Детали</a>
+                <span sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+            &nbsp;|&nbsp;
+            <a th:href="@{|/projects/edit/${project.id}|}">Редактировать</a>
+        </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+        <a href="/projects/create" class="btn">+ Создать проект</a>
+    </div>
+</section>
+
+</body>
+</html>
