@@ -103,7 +103,7 @@ public class ProjectController {
         if (projectOpt.isPresent()) {
             model.addAttribute("project", projectOpt.get());
             model.addAttribute("priorities", Priority.values());
-            return "projects/edit"; // имя шаблона
+            return "projects/edit";
         } else {
             return "redirect:/projects";
         }
@@ -115,7 +115,8 @@ public class ProjectController {
         Project existing = projectService.findById(id).orElseThrow();
 
               existing.setName(updatedProject.getName());
-        existing.setDescription(updatedProject.getDescription());
+              existing.setDescription(updatedProject.getDescription());
+              existing.setPriority(updatedProject.getPriority());
 
         projectService.save(existing);
         return "redirect:/projects";
