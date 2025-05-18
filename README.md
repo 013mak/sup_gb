@@ -32,3 +32,11 @@
 • H2
 • Lombok
 • Maven
+
+Инструкция по запуску:
+
+С использованием H2 (по умолчанию):
+mvn spring-boot:run
+
+С использованием PostgreSQL:
+mvn spring-boot:run -Dspring-boot.run.profiles=postgres
